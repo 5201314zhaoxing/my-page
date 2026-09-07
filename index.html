@@ -498,7 +498,8 @@
     @media print {
       body { background: #fff !important; color: #111 !important; }
       #sky-canvas, #band-canvas, #fx-canvas, .paint-overlay, .vignette,
-      #progress-bar, .top-nav, #back-top, .hero-actions, .ach-more { display: none !important; }
+      #progress-bar, .top-nav, #back-top, .hero-actions, .ach-more,
+      .side-dots, #music-btn, #lightbox { display: none !important; }
       body.js-ready .reveal { opacity: 1 !important; transform: none !important; }
       .page { max-width: 100%; padding: 24px; }
       section { margin-top: 26px; }
@@ -583,6 +584,133 @@
       *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
 
+    /* ===================== 氛围与细节增强 ===================== */
+    /* 头像呼吸光晕 */
+    .avatar-inner { animation: avatarGlow 4s ease-in-out infinite; }
+    @keyframes avatarGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(240,192,48,0.22); }
+      50% { box-shadow: 0 0 26px rgba(240,192,48,0.55), 0 0 60px rgba(94,159,204,0.22); }
+    }
+
+    /* 板块标题星星装饰 */
+    .section-title::before { content: '✦ '; }
+
+    /* 卡片悬停金色辉光 */
+    .ach-card:hover, .work-card:hover, .dream-card:hover, .tl-body:hover,
+    .stat-item:hover, .contact-item:hover {
+      box-shadow: 0 6px 30px rgba(240,192,48,0.16), inset 0 0 0 1px rgba(94,159,204,0.08);
+    }
+
+    /* 技能标签渐变质感 */
+    .skill-tag { background: linear-gradient(160deg, rgba(11,29,58,0.7), rgba(40,85,160,0.35)); }
+
+    /* ===================== 侧边锚点导航（桌面端） ===================== */
+    .side-dots {
+      position: fixed;
+      left: 26px; top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+    @media (min-width: 1100px) { .side-dots { display: flex; } }
+    .side-dots a {
+      position: relative;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(94,159,204,0.5);
+      background: transparent;
+      transition: background .25s, border-color .25s, box-shadow .25s;
+    }
+    .side-dots a:hover, .side-dots a.active {
+      background: var(--chrome-y);
+      border-color: var(--chrome-y);
+      box-shadow: 0 0 12px rgba(240,192,48,0.6);
+    }
+    .side-dots a::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 20px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--warm-y);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .2s;
+      pointer-events: none;
+    }
+    .side-dots a:hover::after { opacity: 1; }
+
+    /* ===================== 图片灯箱 ===================== */
+    #lightbox {
+      position: fixed; inset: 0;
+      z-index: 50;
+      background: rgba(2,8,24,0.9);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 40px;
+      cursor: zoom-out;
+    }
+    #lightbox.open { display: flex; animation: lbIn .25s ease; }
+    @keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
+    #lightbox img {
+      max-width: 92%;
+      max-height: 86vh;
+      border-radius: 14px;
+      border: 1px solid rgba(240,192,48,0.35);
+      box-shadow: 0 12px 60px rgba(0,0,0,0.6);
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 18px; right: 22px;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,192,48,0.4);
+      background: rgba(11,29,58,0.85);
+      color: var(--chrome-y);
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 51;
+      transition: box-shadow .2s, transform .2s;
+    }
+    #lightbox-close:hover { box-shadow: 0 0 18px rgba(240,192,48,0.4); transform: rotate(90deg); }
+
+    /* ===================== 背景音乐按钮 ===================== */
+    #music-btn {
+      position: fixed;
+      left: 22px; bottom: 26px;
+      z-index: 20;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,192,48,0.45);
+      background: rgba(11,29,58,0.85);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      transition: box-shadow .3s, transform .2s;
+    }
+    #music-btn:hover { box-shadow: 0 4px 22px rgba(240,192,48,0.35); transform: translateY(-2px); }
+    #music-btn.playing { box-shadow: 0 0 22px rgba(240,192,48,0.5); }
+    #music-btn.playing::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,192,48,0.4);
+      animation: pulseRing 1.6s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(.9); opacity: .8; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* 页脚细线 */
+    footer { border-top: 1px solid rgba(94,159,204,0.12); padding-top: 26px; }
+
     /* ===================== 页脚 ===================== */
     footer { margin-top: 64px; text-align: center; font-size: 12px; color: var(--text-muted); line-height: 2.2; }
     .footer-quote { font-style: italic; color: rgba(240,192,48,0.55); font-size: 13px; }
@@ -610,6 +738,16 @@
 
 <!-- 阅读进度条 -->
 <div id="progress-bar"></div>
+
+<!-- 侧边锚点导航（桌面端显示） -->
+<nav class="side-dots" aria-label="板块导航">
+  <a href="#about" data-label="关于我"></a>
+  <a href="#skills" data-label="技能"></a>
+  <a href="#works" data-label="热爱"></a>
+  <a href="#journey" data-label="足迹"></a>
+  <a href="#dreams" data-label="梦想"></a>
+  <a href="#contact" data-label="联系"></a>
+</nav>
 
 <!-- 顶部导航 -->
 <nav class="top-nav">
@@ -823,7 +961,7 @@
           <p>从策划、统筹到现场执行，一次次把想法变成现实，也让更多人一起参与进来。</p>
           <details class="ach-more">
             <summary>展开详情</summary>
-            <p class="ach-detail">写方案、拉预算、排节目、盯现场，义卖和晚会的每个环节我都亲手跟过，也第一次体会到"把事办成"的成就感。（占位）</p>
+            <p class="ach-detail">写方案、拉预算、排节目、盯现场，义卖和晚会的每个环节我都亲手跟过，也第一次体会到"把事办成"的成就感。</p>
           </details>
         </div>
       </div>
@@ -951,6 +1089,16 @@
 
 <!-- 回到顶部 -->
 <button id="back-top" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<!-- 图片灯箱 -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="查看大图">
+  <button id="lightbox-close" aria-label="关闭">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<!-- 背景氛围音乐 -->
+<button id="music-btn" title="播放氛围音乐" aria-label="播放氛围音乐">🎵</button>
+<audio id="bg-music" src="assets/music.wav" loop preload="none"></audio>
 
 <script>
 /* =========================================================
@@ -1730,11 +1878,15 @@
 
   /* ---------- 导航高亮当前板块 ---------- */
   const navLinks = document.querySelectorAll('.nav-links a');
+  const sideDots = document.querySelectorAll('.side-dots a');
   const spy = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
       if (en.isIntersecting) {
         const id = en.target.id;
         navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+        sideDots.forEach(function (a) {
           a.classList.toggle('active', a.getAttribute('href') === '#' + id);
         });
       }
@@ -1774,6 +1926,51 @@
         fallbackCopy(btn, text);
       }
     });
+  });
+
+  /* ---------- 图片灯箱 ---------- */
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.work-card .work-cover').forEach(function (cover) {
+    const img = cover.querySelector('img');
+    if (!img) return;
+    cover.style.cursor = 'zoom-in';
+    cover.addEventListener('click', function () {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox () {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  lightbox.addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-close').addEventListener('click', function (e) {
+    e.stopPropagation();
+    closeLightbox();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  /* ---------- 背景氛围音乐开关 ---------- */
+  const musicBtn = document.getElementById('music-btn');
+  const bgMusic = document.getElementById('bg-music');
+  musicBtn.addEventListener('click', function () {
+    if (bgMusic.paused) {
+      bgMusic.play().then(function () {
+        musicBtn.classList.add('playing');
+        musicBtn.textContent = '🎶';
+        musicBtn.title = '暂停氛围音乐';
+      }).catch(function () {});
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.textContent = '🎵';
+      musicBtn.title = '播放氛围音乐';
+    }
   });
 })();
 </script>
