@@ -531,9 +531,9 @@
     <div class="eyebrow">My Promise</div>
     <h2 class="title">如果当选，我会<em>这样做</em></h2>
     <div class="promises">
-      <div class="promise">
+      <div class="promise" onclick="openMailbox()" style="cursor:pointer;">
         <div class="icon">☾</div>
-        <div><h3>夜灯信箱</h3><p>匿名投递你的情绪，认真读每一条，温柔回应，绝不追问外传。</p></div>
+        <div><h3>夜灯信箱 <span style="font-size:0.8em; color:var(--gold);">→ 点击投递</span></h3><p>匿名投递你的情绪，认真读每一条，温柔回应，绝不追问外传。</p></div>
       </div>
       <div class="promise">
         <div class="icon">✧</div>
@@ -890,6 +890,24 @@ document.addEventListener('touchend', e => {
 })();
 
 function sayThanks(){ alert('谢谢你的信任与温柔 ♡\n我不会让你失望的。'); }
+
+// 匿名信箱弹窗
+function openMailbox() {
+  document.getElementById('mailboxModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeMailbox() {
+  document.getElementById('mailboxModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
 </script>
+
+<!-- 匿名信箱弹窗 -->
+<div id="mailboxModal" style="display:none; position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); align-items:center; justify-content:center;">
+  <div style="position:relative; width:90%; max-width:700px; height:85%; background:#0a122e; border:1px solid var(--gold-dim); box-shadow:0 0 60px rgba(232,200,122,0.2);">
+    <button onclick="closeMailbox()" style="position:absolute; top:15px; right:15px; z-index:10; width:40px; height:40px; border-radius:50%; border:1px solid var(--gold); background:rgba(0,0,0,0.5); color:var(--gold); font-size:1.2rem; cursor:pointer; transition:all 0.3s;">✕</button>
+    <iframe src="mailbox.html" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+</div>
 </body>
 </html>
